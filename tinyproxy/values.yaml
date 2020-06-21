@@ -1,0 +1,62 @@
+# Default values for tinyproxy.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: yarencheng/tinyproxy
+  pullPolicy: Always
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+podSecurityContext: {}
+
+securityContext: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: yarencheng.tinyproxy.local
+      paths:
+        - /
+  tls:
+    - hosts:
+      - yarencheng.tinyproxy.local
+      secretName: yarencheng-tinyproxy-local-tls
+
+resources: {}
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+# Critical (least verbose), Error, Warning, Notice, Connect, Info (most verbose)
+logLevel: Info
+
+# Customization of authorization controls
+allow:
+  - 0.0.0.0/0
+
+user: tiny-user
+password: tiny-password

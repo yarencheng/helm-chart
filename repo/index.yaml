@@ -3,7 +3,7 @@ entries:
   hello-world:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-06-21T04:51:01.947611382+08:00"
+    created: "2020-06-22T02:20:18.640916956+08:00"
     description: A Helm chart for Kubernetes
     digest: 1f43e7dd7cf59335a6142c36550d489c81272c8a0842ae79fa4b59eb8322b48a
     name: hello-world
@@ -11,4 +11,15 @@ entries:
     urls:
     - hello-world-0.1.0.tgz
     version: 0.1.0
-generated: "2020-06-21T04:51:01.946321295+08:00"
+  tinyproxy:
+  - apiVersion: v2
+    appVersion: 1.10.0-r3
+    created: "2020-06-22T02:20:18.642196207+08:00"
+    description: A Helm chart for Kubernetes
+    digest: efbeffcf2d60baed5399ca19e0f191e5dc781871963ef77c71c15aa2a878ae14
+    name: tinyproxy
+    type: application
+    urls:
+    - tinyproxy-1.10.0.tgz
+    version: 1.10.0
+generated: "2020-06-22T02:20:18.639406525+08:00"

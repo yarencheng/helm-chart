@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: "{{ include "tinyproxy.fullname" . }}-test-connection"
+  labels:
+    {{- include "tinyproxy.labels" . | nindent 4 }}
+  annotations:
+    "helm.sh/hook": test-success
+spec:
+  containers:
+    - name: curl
+      image: appropriate/curl
+      command: ['curl']
+      args:
+        - -L
+        - https://www.google.com
+        - --proxy
+        - http://{{ .Values.user }}:{{ .Values.password }}@{{ include "tinyproxy.fullname" . }}:{{ .Values.service.port }}
+  restartPolicy: Never
