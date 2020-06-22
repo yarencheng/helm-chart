@@ -1,0 +1,88 @@
+replicaCount: 1
+
+image:
+  repository: yarencheng/v2ray
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+podAnnotations: {}
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  enabled: false
+  annotations: {}
+  hosts:
+    - host: v2ray.local
+      paths:
+        - /
+  tls:
+   - secretName: v2ray-tls
+     hosts:
+       - v2ray.local
+
+livenessProbe:
+  failureThreshold: 10
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 10
+readinessProbe:
+  failureThreshold: 1
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  successThreshold: 1
+  timeoutSeconds: 10
+
+resources:
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+config:
+  log:
+    loglevel: debug
+  dns: {}
+  stats: {}
+  inbounds:
+  - port: 80
+    protocol: vmess
+    settings:
+      clients:
+      - id: 12345678-1234-1234-1234-123456789012
+        alterId: 32
+    streamSettings:
+      network: ws
+      security: none
+      wsSettings:
+        path: "/"
+  outbounds:
+  - protocol: freedom
+    settings:
+      domainStrategy: UseIP
+  policy: {}
+  reverse: {}
+  transport: {}
