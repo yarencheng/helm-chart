@@ -14,7 +14,7 @@ spec:
   template:
     metadata:
       annotations:
-        checksum/config: {{ toJson .Values.config | sha256sum }}
+        checksum/config: {{ toJson .Values | sha256sum }}
     {{- with .Values.podAnnotations }}
         {{- toYaml . | nindent 8 }}
     {{- end }}
@@ -25,34 +25,71 @@ spec:
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
       {{- end }}
+      initContainers:
+        - name: transform-to-json-config
+          image: mikefarah/yq
+          imagePullPolicy: IfNotPresent
+          command:
+            - sh
+            - -c
+            - |-
+              set -ue
+              yq r --tojson /tmp/yaml/config.yaml > /tmp/json/config.json
+          resources:
+            limits:
+              cpu: 100m
+              memory: 32Mi
+            requests:
+              cpu: 100m
+              memory: 32Mi
+          volumeMounts:
+            - name: yaml-config-volume
+              mountPath: /tmp/yaml/
+            - name: json-config-volume
+              mountPath: /tmp/json/
       containers:
         - name: {{ .Chart.Name }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
-              containerPort: 80
+            - name: vmess
+              containerPort: {{ .Values.inbound.vmess.port }}
               protocol: TCP
-          livenessProbe:
-            tcpSocket:
-              port: 80
-            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-            successThreshold: {{ .Values.livenessProbe.successThreshold }}
-            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-          readinessProbe:
-            tcpSocket:
-              port: 80
-            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-            successThreshold: {{ .Values.readinessProbe.successThreshold }}
-            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+            - name: socks-tcp
+              containerPort: {{ .Values.inbound.socks.port }}
+              protocol: TCP
+            - name: socks-udp
+              containerPort: {{ .Values.inbound.socks.port }}
+              protocol: UDP
+            - name: http
+              containerPort: {{ .Values.inbound.http.port }}
+              protocol: TCP
+            - name: shadowsocks-tcp
+              containerPort: {{ .Values.inbound.shadowsocks.port }}
+              protocol: TCP
+            - name: shadowsocks-udp
+              containerPort: {{ .Values.inbound.shadowsocks.port }}
+              protocol: UDP
+          # livenessProbe:
+          #   tcpSocket:
+          #     port: 80
+          #   failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+          #   periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+          #   successThreshold: {{ .Values.livenessProbe.successThreshold }}
+          #   initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+          #   timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          # readinessProbe:
+          #   tcpSocket:
+          #     port: 80
+          #   failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+          #   periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+          #   successThreshold: {{ .Values.readinessProbe.successThreshold }}
+          #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+          #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-            - name: config-volume
+            - name: json-config-volume
               mountPath: /etc/v2ray/
       {{- with .Values.nodeSelector }}
       nodeSelector:
@@ -67,9 +104,11 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       volumes:
-        - name: config-volume
+        - name: yaml-config-volume
           configMap:
             name: {{ include "v2ray.fullname" . }}
             items:
-              - key: config.json
-                path: config.json
+              - key: config.yaml
+                path: config.yaml
+        - name: json-config-volume
+          emptyDir: {}

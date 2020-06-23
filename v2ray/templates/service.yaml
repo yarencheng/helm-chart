@@ -1,15 +1,113 @@
+{{- if .Values.inbound.vmess.enabled }}
+---
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ include "v2ray.fullname" . }}
+  name: {{ include "v2ray.fullname" . }}-vmess
   labels:
     {{- include "v2ray.labels" . | nindent 4 }}
 spec:
-  type: {{ .Values.service.type }}
+  type: {{ .Values.service.vmess.type }}
   ports:
-    - port: {{ .Values.service.port }}
+    - port: {{ .Values.service.vmess.port }}
+      targetPort: vmess
+      protocol: TCP
+      name: vmess
+  selector:
+    {{- include "v2ray.selectorLabels" . | nindent 4 }}
+{{- end }}
+{{- if .Values.inbound.socks.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "v2ray.fullname" . }}-socks-tcp
+  labels:
+    {{- include "v2ray.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.socks.type }}
+  ports:
+    - port: {{ .Values.service.socks.port }}
+      targetPort: socks-tcp
+      protocol: TCP
+      name: socks-tcp
+  selector:
+    {{- include "v2ray.selectorLabels" . | nindent 4 }}
+{{- if .Values.inbound.socks.udp }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "v2ray.fullname" . }}-socks-udp
+  labels:
+    {{- include "v2ray.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.socks.type }}
+  ports:
+    - port: {{ .Values.service.socks.port }}
+      targetPort: socks-udp
+      protocol: UDP
+      name: socks-udp
+  selector:
+    {{- include "v2ray.selectorLabels" . | nindent 4 }}
+{{- end }}
+{{- end }}
+{{- if .Values.inbound.http.enabled }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "v2ray.fullname" . }}-http
+  labels:
+    {{- include "v2ray.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.http.type }}
+  ports:
+    - port: {{ .Values.service.http.port }}
       targetPort: http
       protocol: TCP
       name: http
   selector:
     {{- include "v2ray.selectorLabels" . | nindent 4 }}
+{{- end }}
+{{- if .Values.inbound.shadowsocks.enabled }}
+{{- if or ( eq .Values.inbound.shadowsocks.network "tcp" ) ( eq .Values.inbound.shadowsocks.network "tcp,udp" ) }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "v2ray.fullname" . }}-shadowsocks-tcp
+  labels:
+    {{- include "v2ray.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.shadowsocks.type }}
+  ports:
+    - port: {{ .Values.service.shadowsocks.port }}
+      targetPort: shadowsocks-tcp
+      protocol: TCP
+      name: shadowsocks-tcp
+  selector:
+    {{- include "v2ray.selectorLabels" . | nindent 4 }}
+{{- end }}
+{{- if or ( eq .Values.inbound.shadowsocks.network "udp" ) ( eq .Values.inbound.shadowsocks.network "tcp,udp" ) }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "v2ray.fullname" . }}-shadowsocks-udp
+  labels:
+    {{- include "v2ray.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.shadowsocks.type }}
+  {{- if eq .Values.service.shadowsocks.type "LoadBalancer" }}
+  loadBalancerIP: {{ .Values.service.shadowsocks.loadBalancerIP }}
+  {{- end }}
+  ports:
+    - port: {{ .Values.service.shadowsocks.port }}
+      targetPort: shadowsocks-udp
+      protocol: UDP
+      name: shadowsocks-udp
+  selector:
+    {{- include "v2ray.selectorLabels" . | nindent 4 }}
+{{- end }}
+{{- end }}
