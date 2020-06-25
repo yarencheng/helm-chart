@@ -38,12 +38,7 @@ spec:
               set -ue
               yq r --tojson /tmp/yaml/config.yaml > /tmp/json/config.json
           resources:
-            limits:
-              cpu: 100m
-              memory: 32Mi
-            requests:
-              cpu: 100m
-              memory: 32Mi
+            {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
             - name: yaml-config-volume
               mountPath: /tmp/yaml/
@@ -72,22 +67,22 @@ spec:
             - name: shadowsocks-udp
               containerPort: {{ .Values.inbound.shadowsocks.port }}
               protocol: UDP
-          # livenessProbe:
-          #   tcpSocket:
-          #     port: 80
-          #   failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
-          #   periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
-          #   successThreshold: {{ .Values.livenessProbe.successThreshold }}
-          #   initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
-          #   timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
-          # readinessProbe:
-          #   tcpSocket:
-          #     port: 80
-          #   failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
-          #   periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
-          #   successThreshold: {{ .Values.readinessProbe.successThreshold }}
-          #   initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
-          #   timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
+          livenessProbe:
+            tcpSocket:
+              port: 80
+            failureThreshold: {{ .Values.livenessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.livenessProbe.periodSeconds }}
+            successThreshold: {{ .Values.livenessProbe.successThreshold }}
+            initialDelaySeconds: {{ .Values.livenessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.livenessProbe.timeoutSeconds }}
+          readinessProbe:
+            tcpSocket:
+              port: 80
+            failureThreshold: {{ .Values.readinessProbe.failureThreshold }}
+            periodSeconds: {{ .Values.readinessProbe.periodSeconds }}
+            successThreshold: {{ .Values.readinessProbe.successThreshold }}
+            initialDelaySeconds: {{ .Values.readinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
