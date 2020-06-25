@@ -3,9 +3,9 @@ entries:
   hello-world:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-06-22T23:52:50.325862564+08:00"
+    created: "2020-06-25T23:42:34.078056995+08:00"
     description: A Helm chart for Kubernetes
-    digest: 1f43e7dd7cf59335a6142c36550d489c81272c8a0842ae79fa4b59eb8322b48a
+    digest: 7fae65236548f719744fbcfd3d35a1714b391c9e4958ff76369fe1dab49c471e
     name: hello-world
     type: application
     urls:
@@ -14,9 +14,9 @@ entries:
   tinyproxy:
   - apiVersion: v2
     appVersion: 1.10.0-r3
-    created: "2020-06-22T23:52:50.326675192+08:00"
-    description: A Helm chart for Kubernetes
-    digest: efbeffcf2d60baed5399ca19e0f191e5dc781871963ef77c71c15aa2a878ae14
+    created: "2020-06-25T23:42:34.078932786+08:00"
+    description: A Helm chart for tinyproxy
+    digest: be628221dd52b4a1cac9c54369e76397fc0a7324e43239e4050035bf6a55d101
     name: tinyproxy
     type: application
     urls:
@@ -25,12 +25,12 @@ entries:
   v2ray:
   - apiVersion: v2
     appVersion: 4.25.0
-    created: "2020-06-22T23:52:50.327640715+08:00"
+    created: "2020-06-25T23:42:34.080428933+08:00"
     description: A Helm chart for V2Ray
-    digest: 3e77cfcf28c72fb4d68574e10bd71cbac200d71ef14cfe90afa0a2e3d117a0e5
+    digest: d26a71a63b324d18b3bcf34c05067f2278aa92eebbba1a9a4a9f07db96200eb3
     name: v2ray
     type: application
     urls:
     - v2ray-1.0.0.tgz
     version: 1.0.0
-generated: "2020-06-22T23:52:50.32504649+08:00"
+generated: "2020-06-25T23:42:34.077220086+08:00"
