@@ -38,10 +38,10 @@ ingress:
     - host: v2ray.local
       paths:
         - /
-  tls:
-   - secretName: v2ray-tls
-     hosts:
-       - v2ray.local
+  tls: {}
+  #  - secretName: v2ray-tls
+  #    hosts:
+  #      - v2ray.local
 
 livenessProbe:
   failureThreshold: 10
