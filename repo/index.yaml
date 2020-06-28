@@ -3,7 +3,7 @@ entries:
   hello-world:
   - apiVersion: v2
     appVersion: 1.16.0
-    created: "2020-06-29T01:25:07.248156355+08:00"
+    created: "2020-06-29T03:12:54.95515435+08:00"
     description: A Helm chart for Kubernetes
     digest: 7fae65236548f719744fbcfd3d35a1714b391c9e4958ff76369fe1dab49c471e
     name: hello-world
@@ -14,7 +14,7 @@ entries:
   tinyproxy:
   - apiVersion: v2
     appVersion: 1.10.0-r3
-    created: "2020-06-29T01:25:07.248973224+08:00"
+    created: "2020-06-29T03:12:54.956181628+08:00"
     description: A Helm chart for tinyproxy
     digest: be628221dd52b4a1cac9c54369e76397fc0a7324e43239e4050035bf6a55d101
     name: tinyproxy
@@ -25,7 +25,17 @@ entries:
   v2ray:
   - apiVersion: v2
     appVersion: 4.25.1
-    created: "2020-06-29T01:25:07.253545613+08:00"
+    created: "2020-06-29T03:12:54.964553029+08:00"
+    description: A Helm chart for V2Ray
+    digest: ea6ceb326842e13bea6ac8a2fa25325d42f36a39bc332ab81c318c132f818b21
+    name: v2ray
+    type: application
+    urls:
+    - v2ray-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
+    appVersion: 4.25.1
+    created: "2020-06-29T03:12:54.962903442+08:00"
     description: A Helm chart for V2Ray
     digest: f75707e5e59a0bf2ae1f4d7e1c4a7caa30d6cdf978de7d4bf630fab2bbf051f1
     name: v2ray
@@ -35,7 +45,7 @@ entries:
     version: 1.0.3
   - apiVersion: v2
     appVersion: 4.25.1
-    created: "2020-06-29T01:25:07.252529302+08:00"
+    created: "2020-06-29T03:12:54.960679423+08:00"
     description: A Helm chart for V2Ray
     digest: dfead68c3502768ca20af81139ca09bc0d23775e915ed6e273af350ca11375a9
     name: v2ray
@@ -45,7 +55,7 @@ entries:
     version: 1.0.2
   - apiVersion: v2
     appVersion: 4.25.1
-    created: "2020-06-29T01:25:07.251026357+08:00"
+    created: "2020-06-29T03:12:54.959272769+08:00"
     description: A Helm chart for V2Ray
     digest: abc62f727997f77acbf724e41046b5634fb155e1e20c1ea3baaa68a06395aa98
     name: v2ray
@@ -55,7 +65,7 @@ entries:
     version: 1.0.1
   - apiVersion: v2
     appVersion: 4.25.0
-    created: "2020-06-29T01:25:07.24992804+08:00"
+    created: "2020-06-29T03:12:54.957493526+08:00"
     description: A Helm chart for V2Ray
     digest: 4e4fe15063e8e6d9b94da26b7123656deee0afc31ef68b88e9e192551f1ae7eb
     name: v2ray
@@ -63,4 +73,4 @@ entries:
     urls:
     - v2ray-1.0.0.tgz
     version: 1.0.0
-generated: "2020-06-29T01:25:07.247380627+08:00"
+generated: "2020-06-29T03:12:54.952313199+08:00"
