@@ -1,7 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- $fullName := include "v2ray.fullname" . -}}
 {{- if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
-apiVersion: {{- with .Values.ingress.apiVersion }}
+apiVersion: {{ .Values.ingress.apiVersion }}
 {{- else -}}
 apiVersion: extensions/v1beta1
 {{- end }}
