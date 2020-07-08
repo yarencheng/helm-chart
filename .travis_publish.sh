@@ -2,24 +2,20 @@
 
 set -ue
 
-PUBLICATION_BRANCH=gh-pages
-REPO_PATH=$PWD
+git clone --branch=gh-pages    https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG gh-pages
 
-ls -ltr
-ls -ltr repo
-pwd
+curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
 
-pushd $HOME
-git clone --branch=$PUBLICATION_BRANCH    https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG publish 2>&1 > /dev/null
-cd publish
+helm package hello-world/ -d gh-pages
+helm package tinyproxy/ -d gh-pages
+helm package v2ray/ -d gh-pages
+helm repo index gh-pages
 
-ls -ltr $REPO_PATH/repo/
 
-cp -r $REPO_PATH/repo/* .
+cd gh-pages
 
 git add -A
 git config user.name  "Travis"
 git config user.email "travis@travis-ci.org"
 git commit -m "Updated repo."
-git push -q origin $PUBLICATION_BRANCH 2>&1 > /dev/null
-popd
+git push origin gh-pages
