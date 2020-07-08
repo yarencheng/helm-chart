@@ -2,9 +2,9 @@
 
 set -ue
 
-git clone --branch=gh-pages https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG gh-pages
-
 curl https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3 | bash
+
+git clone --branch=gh-pages https://${GITHUB_TOKEN}@github.com/$TRAVIS_REPO_SLUG gh-pages
 
 helm package hello-world/ -d gh-pages
 helm package tinyproxy/ -d gh-pages
