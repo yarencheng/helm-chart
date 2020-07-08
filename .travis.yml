@@ -6,17 +6,13 @@ before_install:
 
 script:
   - mkdir repo
-  - echo $(pwd)
+  - helm package hello-world/ -d repo
+  - helm package hello-world/ -d repo
   - helm package hello-world/ -d repo
   - helm repo index repo
 
 deploy:
-  provider: pages
-  github_token: $GITHUB_TOKEN
-  local_dir: repo
-  target_branch: gh-pages
-  verbose: true
-  skip_cleanup: true
-  keep_history: true
+  provider: script
+  script: bash .travis_publish
   on:
-    branch: master
+    tags: true
