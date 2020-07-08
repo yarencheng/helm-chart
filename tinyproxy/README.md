@@ -3,7 +3,7 @@
 Usage:
 
 ```
-helm repo add yarencheng https://raw.githubusercontent.com/yarencheng/helm-chart/master/repo
+helm repo add yarencheng https://yarencheng.github.io/helm-repo/
 helm install my-release yarencheng/tinyproxy
 ```
 
