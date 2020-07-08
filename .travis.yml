@@ -7,8 +7,8 @@ before_install:
 script:
   - mkdir repo
   - helm package hello-world/ -d repo
-  - helm package hello-world/ -d repo
-  - helm package hello-world/ -d repo
+  - helm package tinyproxy/ -d repo
+  - helm package v2ray/ -d repo
   - helm repo index repo
 
 deploy:
