@@ -1,6 +1,0 @@
-apiVersion: v2
-name: v2ray
-description: A Helm chart for V2Ray
-type: application
-version: 1.0.4
-appVersion: 4.25.1
