@@ -13,6 +13,6 @@ script:
 
 deploy:
   provider: script
-  script: bash .travis_publish
+  script: bash .travis_publish.sh
   on:
     branch: master
